@@ -39,11 +39,12 @@ public class Main {
 		 * 
 		 */
 
+
 		TrajectoryGenerator.Config cheesyConfig = new TrajectoryGenerator.Config();
-		cheesyConfig.dt = .05;
-		cheesyConfig.max_acc = 7.0;
-		cheesyConfig.max_jerk = 30.0;
-		cheesyConfig.max_vel = 7.0;
+		cheesyConfig.dt = .05;			// the time in seconds between each generated segment
+		cheesyConfig.max_acc = 7.0;		// maximum acceleration for the trajectory, ft/s
+		cheesyConfig.max_jerk = 30.0;	// maximum jerk (derivative of acceleration), ft/s
+		cheesyConfig.max_vel = 7.0;		// maximum velocity you want the robot to reach for this trajectory, ft/s
 
 		WaypointSequence p = new WaypointSequence(10);
         p.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
@@ -52,7 +53,7 @@ public class Main {
 
         // FalconPathPlanner assumes absolute x,y positions on graph, whereas cheesyPoofs assume positions
         // are relative to initial robot position (i.e. cheesy position (0,0) is robot start)
-        // convert cheesy Waypoints into absolute coordinates for FalconPathPlanner
+        // convert cheesy Waypoints into absolute coordinates for FalconPathPlanner graphing library
 		double robotOriginX = 3.0, robotOriginY = 23.0 - 0.0875 - (52.0 / 12.0);
 
 		double trackWidth = 29.872 / 12.0; //(25.75/12.0);
@@ -75,7 +76,9 @@ public class Main {
         } catch (Exception e) {
         	e.printStackTrace();
         }     
-        
+
+
+        // plot the generated trajectories and velocity/position profiles
         Trajectory cheesyLeftTrajectory = cheesyPath.getLeftWheelTrajectory(),
         		   cheesyRightTrajectory = cheesyPath.getRightWheelTrajectory();
         
